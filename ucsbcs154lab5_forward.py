@@ -284,27 +284,26 @@ with pyrtl.conditional_assignment:
 rf_write_enable_w <<= (rd_mw!=0) & reg_write_mw
 rf[rd_mw] <<= pyrtl.MemBlock.EnabledWrite(rf_write_data_w, rf_write_enable_w)
 ##################### SIMULATION #####################
-ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
-i_mem_init = {}
-with open('i_mem_init.txt', 'r') as fin:
-    i = 0
-    for line in fin.readlines():
-        i_mem_init[i] = int(line, 16)
-        i += 1
 if __name__ == '__main__':
     # Start a simulation trace
-    #ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
+    ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
     # Initialize the i_mem with your instructions.
-    # Run for an arbitrarily large number of cycles.
+    i_mem_init = {}
+    with open('i_mem_init.txt', 'r') as fin:
+        i = 0
+        for line in fin.readlines():
+            i_mem_init[i] = int(line, 16)
+            i += 1
     sim = pyrtl.Simulation(tracer=ucsbcs154lab5_sim_trace, memory_value_map={
-        i_mem: i_mem_init
+    i_mem: i_mem_init
     })
+    # Run for an arbitrarily large number of cycles.
     for cycle in range(50):
         sim.step({})
-# Use render_trace() to debug if your code doesn't work.
-# ucsbcs154lab5_sim_trace.render_trace(symbol_len=20)
-# ucsbcs154lab5_sim_trace.print_vcd(open('dump.vcd', 'w'), include_clock=True)
-# You can also print out the register file or memory like so if you want to
-#debug:
-print('mem',sim.inspect_mem(d_mem))
-print('rf',sim.inspect_mem(rf))
+    # Use render_trace() to debug if your code doesn't work.
+    # ucsbcs154lab5_sim_trace.render_trace(symbol_len=20)
+    # ucsbcs154lab5_sim_trace.print_vcd(open('dump.vcd', 'w'), include_clock=True)
+    # You can also print out the register file or memory like so if you want to
+    #debug:
+    print('mem',sim.inspect_mem(d_mem))
+    print('rf',sim.inspect_mem(rf))
