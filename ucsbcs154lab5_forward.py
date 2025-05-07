@@ -284,9 +284,10 @@ with pyrtl.conditional_assignment:
 rf_write_enable_w <<= (rd_mw!=0) & reg_write_mw
 rf[rd_mw] <<= pyrtl.MemBlock.EnabledWrite(rf_write_data_w, rf_write_enable_w)
 ##################### SIMULATION #####################
+ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
 if __name__ == '__main__':
     # Start a simulation trace
-    ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
+    #ucsbcs154lab5_sim_trace = pyrtl.SimulationTrace()
     # Initialize the i_mem with your instructions.
     i_mem_init = {}
     with open('i_mem_init.txt', 'r') as fin:
